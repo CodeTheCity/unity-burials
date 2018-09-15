@@ -11,32 +11,17 @@ public class PointsImporterEditor : Editor {
     {
         GameObject gameObject = new GameObject("SK");
 
-        string path = EditorUtility.OpenFilePanel("Points data", "", "csv");
+        string path = EditorUtility.OpenFilePanel("Burials data", "", "csv");
         LoadASCFile(path, gameObject);
     }
 
-    static void CreateGlobe(Vector2 position, float brightness, GameObject gameObject, String name)
+    static void CreateBurial(Vector3 position, GameObject gameObject, String name)
     {
-        
-        GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        sphere.transform.parent = gameObject.transform;
-        sphere.transform.localScale = new Vector3(brightness, brightness, brightness);
-        sphere.transform.position += new Vector3(-position.x, 0, position.y);
-        sphere.name = name;
-        
-        // Assigns a material named "Assets/Resources/DEV_Orange" to the object.
-        //Material newMat = Resources.Load("LightGlobe", typeof(Material)) as Material;
-        //sphere.GetComponent<Renderer>().material = newMat;
-        /*
-        GameObject lightGameObject = new GameObject("The Light");
-        Light lightComp = lightGameObject.AddComponent<Light>();
-        lightComp.color = Color.yellow;
-        lightGameObject.transform.parent = gameObject.transform;
-        lightGameObject.transform.position += new Vector3(-position.x, 0, position.y);
-        lightGameObject.name = name;
-        lightComp.range = brightness;
-        */
-        
+
+        GameObject instance = Instantiate(Resources.Load("SK", typeof(GameObject))) as GameObject;
+        instance.transform.parent = gameObject.transform;
+        instance.transform.position += new Vector3(position.x, position.y, position.z);
+        instance.name = name;
     }
 
     static bool LoadASCFile(string fileName, GameObject gameObject)
@@ -48,7 +33,7 @@ public class PointsImporterEditor : Editor {
             StreamReader theReader = new StreamReader(fileName, Encoding.Default);
             using (theReader)
             {
-                bool firstLine = true;
+                bool firstLine = false;
                 do
                 {
                     line = theReader.ReadLine();
@@ -61,11 +46,10 @@ public class PointsImporterEditor : Editor {
                         else {
                                 string[] values = line.Split(',');
 
-                                float brightness = float.Parse(values[0]) / 100.0f;
-                                Vector2 rawPosition = new Vector2(float.Parse(values[2]), float.Parse(values[1]));
-                                Vector2 convertedPosition = ConvertToMeters(rawPosition);
-                                String name = values[3];
-                                CreateGlobe(convertedPosition, brightness, gameObject, name);
+                                Vector3 rawPosition = new Vector3(float.Parse(values[0]), float.Parse(values[1]), float.Parse(values[2]));
+                            // Vector2 convertedPosition = ConvertToMeters(rawPosition);
+                            String name = values[3];
+                            CreateBurial(rawPosition, gameObject, name);
 
                             
                         }
