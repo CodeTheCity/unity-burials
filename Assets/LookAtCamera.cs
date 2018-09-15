@@ -16,4 +16,6 @@ public class LookAtCamera : MonoBehaviour {
         transform.rotation = targetRotation;
 
     }
+
+
 }

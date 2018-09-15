@@ -28,6 +28,7 @@ public class Skeleton : MonoBehaviour {
     private bool[] skeletonBools;
 
     // csv input SK Data
+
     public bool male;
     public string burialDate;
     public string info;
@@ -37,26 +38,22 @@ public class Skeleton : MonoBehaviour {
     public float z;
     public float rotation;
 
-    public bool panelBool = false;
     public GameObject panel;
     public GameObject halo;
 
+    UIControl uic;
 
 
     // Use this for initialization
     void Start () {
 
-
+        uic = FindObjectOfType<UIControl>();
     }
 	
 	// Update is called once per frame
 	void Update () {
 
-        if (panelBool)
-        {
-            panel.SetActive(true);
-        }
-        else { panel.SetActive(false); }
+
 
         skeletonObjects = new GameObject[] { headObject, chestObject, pelvisObject, lArmObject, rArmObject, lLegObject, rLegObject };
         skeletonBools = new bool[] { head, chest, pelvis, lArm, rArm, lLeg, rLeg };
@@ -73,7 +70,21 @@ public class Skeleton : MonoBehaviour {
         }
     }
 
+    void OnMouseExit()
+    {
+        halo.SetActive(false);
+        uic.SKname.text = "";
+    }
+    void OnMouseOver()
+    {
+        halo.SetActive(true);
+        uic.SKname.text = this.gameObject.name;
+    }
 
-    
+    public void ClosePanel()
+    {
+        panel.SetActive(false);
+    }
+
 
 }

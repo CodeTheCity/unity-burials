@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MouseInput : MonoBehaviour {
-   
+
+    //UIControl uic;
 
     // Use this for initialization
     void Start () {
-		
+        //uic = FindObjectOfType<UIControl>();
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -20,24 +22,33 @@ public class MouseInput : MonoBehaviour {
             {
                 if (hit.transform.CompareTag("Skeleton"))
                 {
-                    hit.transform.gameObject.GetComponent<Skeleton>().panelBool = true;
+                    hit.transform.gameObject.GetComponent<Skeleton>().panel.SetActive(true);
                     print("hit: " + hit.transform.name);
                 }
-            }
-        }
-
-
-        Ray ray2 = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit2;
-            if (Physics.Raycast(ray2, out hit2))
-            {
-                if (hit2.transform.CompareTag("Skeleton"))
+                else if (!hit.transform.CompareTag("Panel"))
                 {
-                    hit2.transform.gameObject.GetComponent<Skeleton>().halo.SetActive(true);
+                    ClosePanels();
                 }
-
             }
-
+            else
+            {
+                ClosePanels();
+            }
         }
+
+
+    }
+
+    void ClosePanels()
+    {
+        Skeleton[] skeletons = FindObjectsOfType<Skeleton>();
+        foreach (Skeleton sk in skeletons)
+        {
+            sk.panel.SetActive(false);
+        }
+
+        //uic.menuOn = false;
+        //uic.menuPanel.SetActive(false);
+    }
     }
 
