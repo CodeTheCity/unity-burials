@@ -11,31 +11,17 @@ public class PointsImporterEditor : Editor {
     {
         GameObject gameObject = new GameObject("SK");
 
-        string path = EditorUtility.OpenFilePanel("Points data", "", "csv");
+        string path = EditorUtility.OpenFilePanel("Burials data", "", "csv");
         LoadASCFile(path, gameObject);
     }
 
     static void CreateBurial(Vector3 position, GameObject gameObject, String name)
     {
-        
-        GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        sphere.transform.parent = gameObject.transform;
-        sphere.transform.position += new Vector3(position.x, position.y, position.z);
-        sphere.name = name;
-        
-        // Assigns a material named "Assets/Resources/DEV_Orange" to the object.
-        //Material newMat = Resources.Load("LightGlobe", typeof(Material)) as Material;
-        //sphere.GetComponent<Renderer>().material = newMat;
-        /*
-        GameObject lightGameObject = new GameObject("The Light");
-        Light lightComp = lightGameObject.AddComponent<Light>();
-        lightComp.color = Color.yellow;
-        lightGameObject.transform.parent = gameObject.transform;
-        lightGameObject.transform.position += new Vector3(-position.x, 0, position.y);
-        lightGameObject.name = name;
-        lightComp.range = brightness;
-        */
-        
+
+        GameObject instance = Instantiate(Resources.Load("SK", typeof(GameObject))) as GameObject;
+        instance.transform.parent = gameObject.transform;
+        instance.transform.position += new Vector3(position.x, position.y, position.z);
+        instance.name = name;
     }
 
     static bool LoadASCFile(string fileName, GameObject gameObject)
