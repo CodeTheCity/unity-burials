@@ -15,13 +15,12 @@ public class PointsImporterEditor : Editor {
         LoadASCFile(path, gameObject);
     }
 
-    static void CreateGlobe(Vector2 position, float brightness, GameObject gameObject, String name)
+    static void CreateBurial(Vector3 position, GameObject gameObject, String name)
     {
         
         GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         sphere.transform.parent = gameObject.transform;
-        sphere.transform.localScale = new Vector3(brightness, brightness, brightness);
-        sphere.transform.position += new Vector3(-position.x, 0, position.y);
+        sphere.transform.position += new Vector3(position.x, position.y, position.z);
         sphere.name = name;
         
         // Assigns a material named "Assets/Resources/DEV_Orange" to the object.
@@ -48,7 +47,7 @@ public class PointsImporterEditor : Editor {
             StreamReader theReader = new StreamReader(fileName, Encoding.Default);
             using (theReader)
             {
-                bool firstLine = true;
+                bool firstLine = false;
                 do
                 {
                     line = theReader.ReadLine();
@@ -61,11 +60,10 @@ public class PointsImporterEditor : Editor {
                         else {
                                 string[] values = line.Split(',');
 
-                                float brightness = float.Parse(values[0]) / 100.0f;
-                                Vector2 rawPosition = new Vector2(float.Parse(values[2]), float.Parse(values[1]));
-                                Vector2 convertedPosition = ConvertToMeters(rawPosition);
-                                String name = values[3];
-                                CreateGlobe(convertedPosition, brightness, gameObject, name);
+                                Vector3 rawPosition = new Vector3(float.Parse(values[0]), float.Parse(values[1]), float.Parse(values[2]));
+                            // Vector2 convertedPosition = ConvertToMeters(rawPosition);
+                            String name = values[3];
+                            CreateBurial(rawPosition, gameObject, name);
 
                             
                         }
