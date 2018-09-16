@@ -31,7 +31,12 @@ public class InfoPanelUpdater : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-
+        foreach (GameObject model in threeDModelsSmall)
+        {
+            model.SetActive(false);
+        }
+        print("CATCH ERROR" + threeDModelNumber);
+        threeDModelsSmall[threeDModelNumber].SetActive(true);
     }
     public void ResetRot()
     {
@@ -48,6 +53,12 @@ public class InfoPanelUpdater : MonoBehaviour {
         miniDisplay = true;
         p1.gameObject.SetActive(true);
         p2.gameObject.SetActive(false);
+        foreach (GameObject model in threeDModelsSmall)
+        {
+            model.SetActive(false);
+        }
+        print("CATCH ERROR" + threeDModelNumber);
+        threeDModelsSmall[threeDModelNumber].SetActive(true);
     }
 
     public void ToggleMini()
